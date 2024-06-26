@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SmartHair.ai</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-*********************" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    overflow-x: hidden;
+    }
+    h1{
+      padding-top: 10px;
+      padding-left: 50%;
+      color: #ededed;
+    }
+    .container {
+      margin-top: -10px;
+      display: grid;
+      grid-template-columns: 25% 75%;
+      grid-gap: 10px;
+      padding: 30px;
+    }
+    .left-block {
+      text-align: right;
+      padding-right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .left-block img {
+      max-width: 80%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .right-blocks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 60px;
+      padding-right: 40px;
+    }
+    .right-block{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      background: #ededed;
+      padding: 10px;
+      box-shadow: -5px 5px 15px 1px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .right-block img {
+      box-shadow: -5px 5px 15px 1px rgba(0,0,0,0.1);
+      width: 50%;
+      height: auto;
+      object-fit: cover;
+    }
+    .description {
+      background: #ededed;
+      color: #000;
+      font-size: 14px;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+    .description h2{
+      color: #ededed;
+      padding-top: 20px;
+      text-align: center;
+    }
+    .description p{
+      color: #ededed;
+      padding-top: 20px;
+      text-align: left;
+    }
+    .back-icon {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      font-size: 24px;
+      color: #ededed;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Predicted Hairstyles</h1>
+  <div class="container">
+    <a href="../indexq.html" class="fas fa-chevron-left back-icon"></a>
+    <div class="left-block">
+      <img src="dp.png" alt="Circular Image">
+      <div class="description">
+        <h2>Predicted Face Shape: Oval</h2>
+        <p>Gender: Male</p>
+        <p>Hair Length: Long</p>
+        <p>Hair Type: Wavy</p>
+        <p>Colour: Yes</p>
+      </div>
+    </div>
+    <div class="right-blocks">
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 1">
+        <div class="description">Description for Image 1 - 95%</div>
+      </div>
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 2">
+        <div class="description">Description for Image 2 - 80%</div>
+      </div>
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 3">
+        <div class="description">Description for Image 3 - 75%</div>
+      </div>
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 4">
+        <div class="description">Description for Image 4 - 50%</div>
+      </div>
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 5">
+        <div class="description">Description for Image 5 - 34%</div>
+      </div>
+      <div class="right-block">
+        <img src="image1.jpg" alt="Image 6">
+        <div class="description">Description for Image 6 - 21%</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartHair.ai</title>
+  <link rel="Shortcut Icon" type="x-icon" href="logo.png">
+  <link rel="stylesheet" href="style_profile.css" />
+  <!-- Font Awesome Cdn Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <script type="text/javascript" src="brython.js"></script>
+  <script type="text/javascript" src="brython_stdlib.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+</head>
+
+
+  <!-- Include the Handlebars library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+  <!-- Define the template -->
+  <script id="template" type="text/x-handlebars-template">
+      <div>
+          <div class="container1">
+            <div class="title">Overview</div>
+            <div class="content">
+              <form action="#">
+                <div class="img-container" id="imgcontainer">
+                </div>
+                <div class="user-details">
+                  <div class="input-box">
+                    <span class="details">Name</span>
+                    <input type="text" placeholder="Enter your name" required>
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Email Id</span>
+                    <input type="text" placeholder="Enter your email" required>
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Gender : {{gender}}</span>
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Length of Hair : {{length}}</span>
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Hair Type : {{type}}</span>
+                  </div>
+                  <div class="input-box">
+                    <span class="details">Hair Colours : {{color}}</span>
+                  </div>
+                </div>
+                <div class="button">
+                  <input type="submit" value="Predict Hairstyle">
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+  </script>
+
+  <!-- Render the template -->
+  <script>
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var receivedData = urlParams.get('data');
+    var myList = JSON.parse(decodeURIComponent(receivedData));
+    myList=Object.values(myList)
+    alert(myList[0])
+
+      var templateSource = document.getElementById("template").innerHTML;
+
+      // Compile the template
+      var template = Handlebars.compile(templateSource);
+
+      // Define the data
+      var data = {
+          gender: myList[0],
+          length:myList[1],
+          type:myList[2],
+          color:myList[3],
+      };
+
+      // Render the template with the data
+      var renderedHTML = template(data);
+
+      // Insert the rendered HTML into the document
+      document.body.innerHTML += renderedHTML;
+  </script>
+
+  
+  <body id="page-top" onload="brython(1)">
+    <script type="text/python3">
+from browser import document, ajax
+import json
+import warnings
+
+
+def show_results(response):
+    if response.status == 200:
+        response_data = json.loads(response.text)
+        img_filename = response_data["img_filename"]
+        document["output_image"].html = f'<img src="/{img_filename}" />'
+    else:
+        document["output_image"].html = f"Error: {response.text}"
+
+
+def show_face_shape(response):
+    if response.status == 200 or response.status == 0:
+        print(response)
+        shape = json.loads(response.text)
+        document["display_user_face_shape"].html = (
+            "Face Shape: " + shape["face_shape"].title()
+        )
+    else:
+        warnings.warn(response.text)
+
+
+def get_prediction(ev):
+    """Get the predicted probability."""
+    document["output_image"].html = "Predicting..."
+    req = ajax.ajax()
+    req.bind("complete", show_results)
+    req.open("POST", "/predict", True)
+    req.set_header("content-type", "application/json")
+    data = json.dumps(
+        {
+            "file_name": document["uploadfilename"].value,
+            "person_see_up_dos": document["personseeupdos"].value,
+            "person_hair_length": document["personhairlength"].value,
+        }
+    )
+    req.send(data)
+
+
+def get_face_shape(ev):
+    """Get the user face shape."""
+    req = ajax.ajax()
+    req.bind("complete", show_face_shape)
+    req.open("POST", "/predict_user_face_shape", True)
+    req.set_header("content-type", "application/json")
+    data = json.dumps({"file_name": document["uploadfilename"].value})
+    req.send(data)
+
+
+document["predict_button"].bind("click", get_prediction)
+document["predict_face_shape"].bind("click", get_face_shape)
+      
+    </script>
+     <script type="text/javascript">
+        $(document).ready(function(){
+            $('input[type="file"]').change(function(e){
+                var preview = document.querySelector('.img-upload-pic'); //selects the query named img
+                var file    = document.querySelector('input[type=file]').files[0]; 
+                var predict_button_click = document.getElementById("predict_button");
+                var find_face_shape = document.getElementById("predict_face_shape");
+
+                var reader  = new FileReader();
+                reader.onloadend = function () {
+                  preview.src = reader.result;
+                  $("#uploadfilename").val(file.name)
+                  predict_button_click.style.color = "black";
+                  predict_button_click.style.borderColor = "black";
+                  document.querySelector('#featuressection').click();
+                  find_face_shape.click();
+                }
+              if (file) {
+                reader.readAsDataURL(file); //reads the data as a URL
+              } else {
+                preview.src = "";
+                predict_button_click.style.color = "white";
+                predict_button_click.style.borderColor = "white";
+              }
+            });
+        });
+      </script>
+
+
+<div>
+  <div class="col-md-8 mx-auto">
+    <h2 class="section-heading">hello there</h2>
+    <p style="
+          font-family: Catamaran,Helvetica,Arial,sans-serif;
+          font-weight: 200;
+          letter-spacing: 1px;
+          font-size: 30px;
+          margin-top: 0;
+    ">Upload Photo!</p>
+    <input type="file" class="filenameupload" name="file" style="
+          font-size: 1.25em;
+          font-weight: 700;
+          color: white;
+          background-color: black;
+          display: inline-block;
+          cursor: pointer;
+    ">
+    <a href="#features" id="featuressection" style="visibility: hidden;"></a>
+    <input type="hidden" id="uploadfilename" name="hiddenfilename" value="" />
+    <input type="hidden" id="recommendimages" name="hiddenrecommendimages" value="" />
+  </div>
+</div>
+<div>
+
+<div>
+  <img src="img/main-app-image.jpg" class="img-fluid img-upload-pic" alt="">
+</div>
+<div>
+  <div class="feature-item">
+    <div id="display_user_face_shape" style="font-family: Catamaran,Helvetica,Arial,sans-serif;
+    font-size: 1.25rem;"></div>
+    <h5>What is your name</h5>
+    <input type="text" name="name" id="personname">
+  </div>
+  <div class="feature-item">
+    <h5>Would you like to see up-dos? (Y/N)</h5>
+    <input type="text" name="seeupdos" id="personseeupdos">
+  <!-- <i class="icon-camera text-primary"></i>
+  <h3>Flexible Use</h3>
+  <p class="text-muted">Put an image, video, animation, or anything else in the screen!</p> -->
+</div>
+<div class="feature-item">
+  <h5>If No, Is your hair short (shoulder-length shorter) or long?</h5>
+  <input type="text" name="hairlength" id="personhairlength">
+<!-- <i class="icon-present text-primary"></i>
+<h3>Free to Use</h3>
+<p class="text-muted">As always, this theme is free to download and use for any purpose!</p> -->
+</div>
+<div class="feature-item">
+  <button id="predict_button" class="btn btn-outline btn-xl js-scroll-trigger">Predict!</button>
+  <button id="predict_face_shape" style="border-color: white;"></button>
+<!-- <i class="icon-lock-open text-primary"></i>
+<h3>Open Source</h3>
+<p class="text-muted">Since this theme is MIT licensed, you can use it commercially!</p> -->
+</div>
+</div>
+
+
+
+</div>
+
+
+
+
+
+  <section class="cta">
+    <div class="cta-content">
+      <div class="container">
+        <div id="output_image"></div>
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </section>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/new-age.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<title>SmartHair.ai</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <script type="text/javascript" src="brython.js"></script>
+  <script type="text/javascript" src="brython_stdlib.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="css/img.css">
+
+</head>
+<body id="page-top" onload="brython(1)">
+	<script type="text/python3">
+from browser import document, ajax
+import json
+import warnings
+
+def show_results(response):
+	if response.status == 200:
+		response_data = json.loads(response.text)
+		img_filename = response_data["img_filename"]
+		document["output_image"].html = f'<img src="/{img_filename}" />'
+	else:
+		document["output_image"].html = f"Error: {response.text}"
+
+def show_face_shape(response):
+	if response.status == 200 or response.status == 0:
+		shape = json.loads(response.text)
+		document["user_face"].html = "Face Shape:  "+shape["face_shape"]
+	else:
+		warnings.warn(response.text)
+
+def get_prediction(ev):
+	"""Get the predicted probability."""
+	document["output_image"].html = "Predicting..."
+	req = ajax.ajax()
+	req.bind("complete", show_results)
+	req.open("POST", "/predict", True)
+	req.set_header("content-type", "application/json")
+	data = json.dumps(
+		{
+			"file_name": document["uploadfilename"].value,
+			"person_see_up_dos": "n",
+			"person_hair_length": "long",
+		}
+	)
+	req.send(data)
+	document.getElementById("container").style.display = "none";
+	document.getElementById("page-top").style.overflow = "hidden";
+	document.getElementById("cta-section").style.display = "block";
+
+def get_face_shape(ev):
+	"""Get the user face shape."""
+	req = ajax.ajax()
+	req.bind("complete", show_face_shape)
+	req.open("POST", "/predict_user_face_shape", True)
+	req.set_header("content-type", "application/json")
+	data = json.dumps({"file_name": document["uploadfilename"].value})
+	req.send(data)
+
+document["predict_button"].bind("click", get_prediction)
+document["predict_face_shape"].bind("click", get_face_shape)
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		  $('input[type="file"]').change(function(e){
+			var preview = document.querySelector('.img-upload-pic'); //selects the query named img
+			var file = document.querySelector('input[type=file]').files[0]; 
+			var predict_button_click = document.getElementById("predict_button");
+			var find_face_shape = document.getElementById("predict_face_shape");
+	  
+			var reader = new FileReader();
+			reader.onloadend = function () {
+			  preview.src = reader.result;
+			  $("#uploadfilename").val(file.name);
+			  predict_button_click.style.color = "black";
+			  predict_button_click.style.borderColor = "black";
+			  document.querySelector('#featuressection').click();
+			  find_face_shape.click();
+	  
+			  // Hide the upload box after image upload
+			  $('.img-area').hide();
+			}
+			if (file) {
+			  reader.readAsDataURL(file); //reads the data as a URL
+			} else {
+			  preview.src = "";
+			  predict_button_click.style.color = "white";
+			  predict_button_click.style.borderColor = "white";
+			}
+		  });
+		});
+	  </script>
+	  
+	<div class="container" id="container">
+		<div class="img-area-w" data-img="">
+    <img src="img/main-app-image.jpeg" class="img-fluid img-upload-pic" alt="">
+  </div>
+
+  <label for="file-upload" class="img-area" data-img="">
+    <input id="file-upload" type="file" class="file filenameupload" name="file" style="display: none;">
+    <a href="#features" id="featuressection" style="visibility: hidden;"></a>
+    <input type="hidden" id="uploadfilename" name="hiddenfilename" value="" />
+    <input type="hidden" id="recommendimages" name="hiddenrecommendimages" value="" />
+    <i class='bx bxs-cloud-upload icon'></i>
+    <h3>Upload Image</h3>
+    <p>Image size must be less than <span>2MB</span></p>
+  </label>
+  <a href="#"></a>
+			
+		</a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-6">
+				  <div class="feature-item d-flex align-items-center justify-content-center h-100">
+					<div id="user_face" style="font-family: Catamaran, Helvetica, Arial, sans-serif; font-size: 1.25rem; text-align: center;">Face Shape:</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="col-lg-6">
+				<div class="feature-item"></div>
+			  </div>
+			</div>
+			<div class="row">
+			  <div class="col-lg-6">
+				<div class="feature-item"></div>
+			  </div>
+			  <div class="col-lg-6">
+				<div class="feature-item">
+					 <button id="predict_button" class="btn btn-outline btn-xl js-scroll-trigger">Predict!</button>
+					 <button id="predict_face_shape" style="border-color: white;"></button>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<section class="cta">
+	  <div class="cta-content" id="cta-section">
+	    <div >
+	      <div id="output_image" style="color:white"></div>
+	    </div>
+	  </div>
+	  <div class="overlay"></div>
+	</section>
+	
+	<script src="js/img.js"></script>
+	<script src="js/new-age.min.js"></script>
+</body>
+</html>

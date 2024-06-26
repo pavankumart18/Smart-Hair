@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SmartHair.ai</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<script>
+  const items = document.querySelectorAll('.accordion button');
+
+function toggleAccordion() {
+  const itemToggle = this.getAttribute('aria-expanded');
+
+  for (i = 0; i < items.length; i++) {
+    items[i].setAttribute('aria-expanded', 'false');
+  }
+
+  if (itemToggle == 'false') {
+    this.setAttribute('aria-expanded', 'true');
+  }
+}
+
+items.forEach((item) => item.addEventListener('click', toggleAccordion));
+</script>
+<body>
+  <div id="section1" >
+    <header class="header">
+      <a href="#" class="logo">SmartHair.ai</a>
+      <nav class="navbar">
+        <a href="#section1">Home</a>
+        <a href="#section2">About</a>
+        <a href="#section3">Pricing</a>
+        <a href="#section4">FAQ</a>
+        <a href="#section5">Contact</a>
+      </nav>
+    </header>
+    <section class="home">
+      <div class="home-content">
+        <h1>Hi, I'm an Ai Assistant</h1>
+        <h3>To Choose Your Hairstyle</h3>
+        <p>We’re here to change the way you choose your next haircut. Our state-of-the-art machine learning algorithms analyze your face shape, hair type, and lifestyle to predict the perfect hairstyle just for you. Get ready to be amazed and never worry about a bad hair day again.</p> 
+        <div class="btn-box">
+          <a href="/indexq">Try Now!</a>
+          <a href="#section3">See Pricing</a>
+        </div>
+      </div>
+      <div class="home-sci">
+        <a href="#"><i class='bx bxl-instagram'></i></a>
+        <a href="#"><i class='bx bxl-github' ></i></a>
+        <a href="#"><i class='bx bxl-youtube' ></i></a>
+      </div>
+      <span class="home-imgHover"></span>
+      </div>
+    </section>
+  </div>
+  <div id="section2">
+    <div class="box1">
+      <div class="text">
+        <h1>Style Predictions Tailored Just for You</h1>
+        <p>Our machine learning model studies millions of hairstyles to determine the ideal look for you, taking into consideration face structure, hair type, and personal style preferences.</p>
+      </div>
+          <img src="img/hair.png"/>
+        </p>
+    </div>
+    <div class="box1">
+      <img src="img/hair2.png"/>
+      <div class="text">
+        <h1>Say Goodbye to Regretful Hair Choices</h1>
+        <p>SmartHair.ai eliminates the guesswork in selecting your next hairstyle. Discover your personal style and feel confident in your choice before the scissors even touch your hair.</p>
+      </div>
+        </p>
+    </div>
+  </div>
+  <div id="section3">
+    <bodyp>
+      <div class="cards">
+        <div class="card shadow">
+          <ul>
+            <li class="pack">Basic</li>
+            <li id="basic" class="price bottom-bar">Free</li>
+            <li class="bottom-bar">No Storage</li>
+            <li class="bottom-bar">1 User Allowed</li>
+            <li class="bottom-bar">2 Checks per Month</li>
+            <li><button class="btn">Current</button></li>
+          </ul>
+        </div>
+        <div class="card active">
+          <ul>
+            <li class="pack">Premium (Most Popular)</li>
+            <li id="basic" class="price bottom-bar">&#8377;199</li>
+            <li class="bottom-bar">1 GB Storage</li>
+            <li class="bottom-bar">2 Users Allowed</li>
+            <li class="bottom-bar">3 Checks per Month</li>
+            <li><button class="btn active-btn no">Coming Soon</button></li>
+          </ul>
+        </div>
+        <div class="card shadow">
+          <ul>
+            <li class="pack">Master</li>
+            <li id="basic" class="price bottom-bar">&#8377;699</li>
+            <li class="bottom-bar">Unlimited Storage</li>
+            <li class="bottom-bar">4 Users Allowed</li>
+            <li class="bottom-bar">Unlimited Checks</li>
+            <li><button class="btn no">Coming Soon</button></li>
+          </ul>
+        </div>
+      </div>
+    </bodyp>
+  </div>
+  <div id="section4">
+    <bodyf>
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button id="accordion-button-1" aria-expanded="false">
+            <span class="accordion-title">How accurate are the predictions?</span>
+            <span class="icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              The accuracy of our hairstyle predictions depends on the quality of the input data and the effectiveness of our machine learning models. While we strive to provide accurate recommendations, it's important to remember that personal preferences and individual characteristics can vary, so the final choice is ultimately up to you.
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-2" aria-expanded="false">
+            <span class="accordion-title">Can I try different hairstyle options?</span>
+            <span class="icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              Absolutely! Our AI can generate multiple hairstyle suggestions for you to explore and choose from.
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-3" aria-expanded="false">
+            <span class="accordion-title">Can I upload a photo to get a personalized hairstyle prediction?</span>
+            <span class="icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              Absolutely! Our website allows you to upload your photo, which helps us better analyze your features and provide more personalized hairstyle recommendations. This feature enhances the accuracy of our predictions and ensures a tailored experience.
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-4" aria-expanded="false">
+            <span class="accordion-title">How frequently are the hairstyle predictions updated?</span>
+            <span class="icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              We continually update our database and algorithms to ensure our hairstyle predictions stay relevant and up-to-date with the latest trends. Our aim is to provide you with the most current and stylish recommendations possible.
+            </p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-5" aria-expanded="false">
+            <span class="accordion-title">Is my personal information safe when using this website?</span>
+            <span class="icon" aria-hidden="true"></span>
+          </button>
+          <div class="accordion-content">
+            <p>
+              We take privacy and data security seriously. Any personal information you provide, including uploaded photos, is treated with the utmost care and is subject to our strict privacy policy. We do not share or sell your data to third parties without your explicit consent.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="scriptf.js"></script>
+  </body>
+  </div>
+  <div id="section5">
+    <bodyc>
+    <div class="container">
+      <span class="big-circle"></span>
+      <img src="img/shape.png" class="square" alt="" />
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title">Let's get in touch</h3>
+          <p class="text">
+            We would love to hear from you! Whether you have a question, feedback, or simply want to say hello, feel free to reach out to us. Our dedicated team is here to assist you and provide any assistance you may need. Please fill out the contact form, and we'll get back to you as soon as possible. Thank you for visiting our website, and we look forward to connecting with you!
+          </p>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form action="index.html" autocomplete="off">
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" placeholder="Username" name="name" class="input" />
+              <span>Username</span>
+            </div>
+            <div class="input-container">
+              <input type="email" placeholder="Email" name="email" class="input" />
+              <span>Email</span>
+            </div>
+            <div class="input-container">
+              <input type="tel" placeholder="Phone" name="phone" class="input" />
+              <span>Phone</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" placeholder="Message" class="input"></textarea>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </bodyc>
+</body>
+</html>
